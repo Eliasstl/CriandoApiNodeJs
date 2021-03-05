@@ -19,7 +19,14 @@ app.use(express.json());
  });
 
 app.get("/", (req, res)=>{
-    return res.json({titulo: "Como criar API'"})
+    Artigo.find({}).then((artigo)=>{
+        return res.json(artigo);
+    }).catch((erro)=>{
+        return res.status(400).json({
+            error:true,
+            message:"Nenhum artigo encontrado!"
+        })
+    })
 });
 
 app.post("/artigo",(req, res)=>{
@@ -28,11 +35,12 @@ app.post("/artigo",(req, res)=>{
             error:true,
             message:"Error artigo não foi cadastrado com sucesso!"
         })
-
         return res.status(200).json({
             error:false,
-            message:"Artigo foi cadastrado com sucesso!"
+            message:"artigo foi cadastrado com sucesso!"
         })
+
+        
 
 
     })
